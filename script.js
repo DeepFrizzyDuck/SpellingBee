@@ -163,5 +163,6 @@ recognition.onresult = function(event) {
     ysElem.innerHTML = splitResults2(result);
     wordElem.innerHTML = splitResults2(targetWord);
   }
+  recognition.stop();
   finishRound = true;
 }
