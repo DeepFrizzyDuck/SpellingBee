@@ -1,0 +1,53 @@
+body, html {
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  padding-top: 300px;
+  height: inherit;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #eee;
+}
+
+h1, p, b {
+  font-family: sans-serif;
+  padding: 5px;
+  color: #222;
+}
+
+i {
+  color: #555;
+  font-size: 1.4rem;
+  margin-left: -5px;
+  font-weight: 400;
+  line-height: 3rem;
+}
+
+h1 {
+  font-family: monospace;
+  font-size: 2.3rem;
+}
+
+b {
+  font-size: 1.5rem;
+}
+
+p {
+  font-size: 1.7rem;
+  line-height: 3rem;
+}
+
+#yousaid {
+  text-decoration: line-through;
+  color: rgb(201, 115, 115);
+}
+
+span {
+  text-decoration: line-through;
+  color: rgb(201, 115, 115);
+}
