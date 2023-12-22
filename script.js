@@ -146,6 +146,18 @@ start.onclick = function() {
 
 recognition.onresult = function(event) {
   var result = event.results[0][0].transcript;
+  if (!result.includes(' ')) {
+    chosenWords.push([originalWord, false]);
+
+    let utterance = new SpeechSynthesisUtterance("Please don't cheat.");
+    speechSynthesis.speak(utterance);
+    wordElem.innerHTML = splitResults2(targetWord);
+
+    recognition.stop();
+    finishRound = true;
+    return;
+  }
+
   result = cleanResults(result)
   if (targetWord == result) {
     let utterance = new SpeechSynthesisUtterance("Correct.");
