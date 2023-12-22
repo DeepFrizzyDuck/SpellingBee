@@ -81,6 +81,7 @@ var chosenWords = [];
 var originalWord = '';
 
 var finishRound = true;
+recognition.stop();
 
 var start = document.querySelector('#start');
 start.onclick = function() {
@@ -104,7 +105,8 @@ start.onclick = function() {
   data = pool;
 
   document.body.onclick = function() {
-
+    recognition.stop();
+    
     if (finishRound) {
       finishRound = false;
       count += 1
