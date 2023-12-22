@@ -45,15 +45,22 @@ function defineWord(word) {
 
       let utterance = new SpeechSynthesisUtterance("The word is:" + targetWord + ". ");
       speechSynthesis.speak(utterance);
+
       let def = `${count}. ` + definition;
       //if (example) def += "<br><i>Example: " + example + "</i>"
       defElem.innerHTML = def;
 
+      utterance.onend = () => {
+        recognition.start();
+      }
     })
     .catch(() => {
       let utterance = new SpeechSynthesisUtterance("The word is:" + targetWord + ". ");
       speechSynthesis.speak(utterance);
       defElem.innerHTML = `${count}. ` + "No definition has been found for this word."
+      utterance.onend = () => {
+        recognition.start();
+      }
     })
 }
 
@@ -106,7 +113,7 @@ start.onclick = function() {
 
   document.body.onclick = function() {
     recognition.stop();
-    
+
     if (finishRound) {
       finishRound = false;
       count += 1
@@ -117,9 +124,8 @@ start.onclick = function() {
         levelElem.innerHTML = `<i>${correct}/${numWords}</i><br>Words starting with '${letter.toUpperCase()}' ${'🐝'.repeat(level + 1)}`;
         originalWord = data[level][Math.floor(Math.random() * (data[level].length-1))];
         targetWord = cleanResults(originalWord);
-    
-        recognition.start();
         defineWord(targetWord);
+        
         ysElem.innerHTML = "";
         wordElem.innerHTML = obfusticateResult(targetWord);
       }
@@ -141,12 +147,15 @@ start.onclick = function() {
       // Repeat
       let utterance = new SpeechSynthesisUtterance("The word is:" + targetWord + ". ");
       speechSynthesis.speak(utterance);
-      recognition.start();
+      utterance.onend = () => {
+        recognition.start();
+      }
     }
   }
 }
 
 recognition.onresult = function(event) {
+  recognition.stop();
   var result = event.results[0][0].transcript;
   if (!result.includes(' ')) {
     chosenWords.push([originalWord, false]);
@@ -155,7 +164,6 @@ recognition.onresult = function(event) {
     speechSynthesis.speak(utterance);
     wordElem.innerHTML = splitResults2(targetWord);
 
-    recognition.stop();
     finishRound = true;
     return;
   }
@@ -177,6 +185,5 @@ recognition.onresult = function(event) {
     ysElem.innerHTML = splitResults2(result);
     wordElem.innerHTML = splitResults2(targetWord);
   }
-  recognition.stop();
   finishRound = true;
 }
